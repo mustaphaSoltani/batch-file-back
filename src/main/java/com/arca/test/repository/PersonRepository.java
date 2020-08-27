@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    @Query(value="select distinct origine, sum(number) as total_value from person group by origine", nativeQuery = true)
-    List<Person> findPerson();
+    @Query(value = "select  origine, sum(number) as total_value from person groupe group by origine", nativeQuery = true)
+    List<?> findPerson();
 }

@@ -35,7 +35,7 @@ public class BatchConfiguration {
     public FlatFileItemReader<Person> reader() {
         return new FlatFileItemReaderBuilder<Person>()
                 .name("personItemReader")
-                .resource(new ClassPathResource("templates/data.txt"))
+                .resource(new ClassPathResource("data.txt"))
                 .delimited()
                 .names(new String[]{"time", "number", "origine"})
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<Person>() {{
@@ -73,7 +73,7 @@ public class BatchConfiguration {
     @Bean
     public Step step1(JdbcBatchItemWriter<Person> writer) {
         return stepBuilderFactory.get("step1")
-                .<Person, Person>chunk(2)
+                .<Person, Person>chunk(10)
                 .reader(reader())
                 .processor(processor())
                 .writer(writer)
