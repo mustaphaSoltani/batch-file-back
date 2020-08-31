@@ -35,7 +35,7 @@ public class BatchConfiguration {
     public FlatFileItemReader<Person> reader() {
         return new FlatFileItemReaderBuilder<Person>()
                 .name("personItemReader")
-                .resource(new ClassPathResource("data.txt"))
+                .resource(new ClassPathResource("template/data.txt"))
                 .delimited()
                 .names(new String[]{"time", "number", "origine"})
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<Person>() {{
@@ -53,7 +53,7 @@ public class BatchConfiguration {
     public JdbcBatchItemWriter<Person> writer(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Person>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-                .sql("INSERT INTO person (time,number,origine) VALUES (:time,:number,:origine)")
+                .sql("INSERT INTO person (time,number,origine, date) VALUES (:time,:number,:origine, :date)")
                 .dataSource(dataSource)
                 .build();
     }

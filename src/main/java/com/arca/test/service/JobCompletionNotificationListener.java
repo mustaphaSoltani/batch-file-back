@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -17,22 +16,22 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public void afterJob(JobExecution jobExecution) {
-        if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
+        if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("!!! JOB FINISHED! Time to verify the results");
 
-            jdbcTemplate.query("SELECT time, number, origine FROM person",
+            jdbcTemplate.query("SELECT id, time, number, origine, date FROM person",
                     (rs, row) -> new Person(
                             rs.getLong(1),
                             rs.getLong(2),
                             rs.getInt(3),
-                            rs.getString(4))
+                            rs.getString(4),
+                            rs.getString(5))
             ).forEach(person -> log.info("Found <" + person + "> in the database."));
         }
     }

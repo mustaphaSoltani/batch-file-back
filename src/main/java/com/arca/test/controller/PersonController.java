@@ -1,11 +1,7 @@
 package com.arca.test.controller;
 
-import com.arca.test.domain.Person;
 import com.arca.test.repository.PersonRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,12 +16,31 @@ public class PersonController {
     }
 
     @GetMapping("/data")
-    public List<?> findAllPersonByOrigin() {
-        return this.personRepository.findPerson();
+    public List<?> sumValuesByOrigin() {
+        return this.personRepository.sumValuesByOrigin();
     }
 
-    @GetMapping("/person")
-    public List<Person> findAllPerson() {
-        return this.personRepository.findAll();
+    @GetMapping("/sumValue")
+    public List<?> sumValuesByDate(@RequestParam String year, @RequestParam String startDate, @RequestParam String endDate) {
+        if (!"0".equals(year)) {
+            startDate = year + "-01-01";
+            endDate = year + "-12-31";
+        }
+        return this.personRepository.sumValuesByDate(startDate, endDate);
+    }
+
+    @GetMapping("/origin")
+    public List<String> getAllOrigin() {
+        return this.personRepository.findAllOrigine();
+    }
+
+    @GetMapping("/dataByOrigin")
+    public List<?> getAllOrigin(@RequestParam String year, @RequestParam String startDate,
+                                @RequestParam String endDate, @RequestParam String origin) {
+        if (!"0".equals(year)) {
+            startDate = year + "-01-01";
+            endDate = year + "-12-31";
+        }
+        return this.personRepository.sumValuesByDateOfOrigin(origin, startDate, endDate);
     }
 }

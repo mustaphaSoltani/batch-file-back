@@ -26,7 +26,7 @@ public class Person implements Serializable {
     @Column(name = "origine")
     private String origine;
 
-    public Person() {
+    @Column(name = "date")
+    private String date;
 
-    }
 }
