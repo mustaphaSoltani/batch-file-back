@@ -35,7 +35,7 @@ public class PersonController {
     }
 
     @GetMapping("/dataByOrigin")
-    public List<?> getAllOrigin(@RequestParam String year, @RequestParam String startDate,
+    public List<?> getSumValuesByDateOfOrigin(@RequestParam String year, @RequestParam String startDate,
                                 @RequestParam String endDate, @RequestParam String origin) {
         if (!"0".equals(year)) {
             startDate = year + "-01-01";
